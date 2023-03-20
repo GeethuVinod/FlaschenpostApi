@@ -1,6 +1,9 @@
-﻿using System;
-namespace FlaschenpostApi.Api.Models
+﻿namespace FlaschenpostApi.Api.Models
 {
+    /// <summary>
+    /// Wrapper class for response, any domain validation error or other business logic error could go here
+    /// </summary>
+    /// <typeparam name="TDomainModel"></typeparam>
     public class DomainResponse<TDomainModel>
       where TDomainModel : class
     {
