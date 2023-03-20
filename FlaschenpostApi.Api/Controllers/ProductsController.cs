@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using FlaschenpostApi.Models;
 using FlaschenpostApi.Repositories;
 using System;
+using Microsoft.Extensions.Logging;
 
 namespace FlaschenpostApi.Controllers
 {
@@ -80,19 +81,9 @@ namespace FlaschenpostApi.Controllers
             {
                 return BadRequest("Invalid URL format");
             }
+            var response = await _productRepository.GetAll(url);
 
-            var mostExpensiveAndCheapestPerLitre = await GetMostExpensiveAndCheapestBierPerLitre(url);
-            var beersCosting1799 = await GetBierByCost(url,"17.99");
-            var productWithMostBottles = await GetProductWithMostBottles(url);
-
-            var result = new
-            {
-                MostExpensiveAndCheapestPerLitre = ((OkObjectResult)mostExpensiveAndCheapestPerLitre.Result).Value,
-                BeersCosting1799 = ((OkObjectResult)beersCosting1799.Result).Value,
-                ProductWithMostBottles = ((OkObjectResult)productWithMostBottles.Result).Value
-            };
-
-            return Ok(result);
+            return Ok(response);
         }
 
         private bool ValidateUrl(string url)
