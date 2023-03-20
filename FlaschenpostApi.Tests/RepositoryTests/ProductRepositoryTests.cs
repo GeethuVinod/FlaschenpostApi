@@ -55,7 +55,7 @@ namespace FlaschenpostApi.Tests.RepositoryTests
         {
             // Arrange
             double price = 17.99;
-            var filteredProducts = (await _productRepository.GetBierByCost(FlaschenpostProductsUrl, price)).ToList();
+            var filteredProducts = (await _productRepository.GetBierByCost(FlaschenpostProductsUrl, price)).Result.ToList();
 
             // Assert
             Assert.NotNull(filteredProducts);
@@ -70,7 +70,7 @@ namespace FlaschenpostApi.Tests.RepositoryTests
         {
             // Arrange
 
-            var filteredProducts = (await _productRepository.GetExpensiveAndCheapestBier(FlaschenpostProductsUrl)).ToList();
+            var filteredProducts = (await _productRepository.GetExpensiveAndCheapestBier(FlaschenpostProductsUrl)).Result.ToList();
 
             // Assert
             Assert.NotNull(filteredProducts);
@@ -78,12 +78,8 @@ namespace FlaschenpostApi.Tests.RepositoryTests
             Assert.AreEqual(1, filteredProducts.First().Id);
             Assert.AreEqual(112, filteredProducts.First().Articles.First().Id);
             Assert.AreEqual(2, filteredProducts[1].Id);
-            Assert.AreEqual(114, filteredProducts.First().Articles.First().Id);
+            Assert.AreEqual(114, filteredProducts[1].Articles.First().Id);
         }
-
-
-
-
 
         private HttpClient GetMockHttpClient()
         {
