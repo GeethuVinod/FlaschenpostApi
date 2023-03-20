@@ -8,7 +8,7 @@ namespace FlaschenpostApi.Repositories
     {
         Task<IEnumerable<Product>> GetProductsAsync(string url);
         Task<IList<Product>> GetExpensiveAndCheapestBier(string url);
-        Task<IList<Product>> GetBierByPrice(string url);
+        Task<IList<Product>> GetBierByCost(string url, double price);
         Task<Product> GetProductWithMostBottles(string url);
     }
 }

@@ -16,11 +16,13 @@
   <ItemGroup>
     <None Remove="Moq" />
     <None Remove="RepositoryTests\" />
+    <None Remove="ControllerTests\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\FlaschenpostApi.Api\FlaschenpostApi.Api.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="RepositoryTests\" />
+    <Folder Include="ControllerTests\" />
   </ItemGroup>
 </Project>

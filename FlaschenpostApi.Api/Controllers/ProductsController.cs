@@ -4,8 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using FlaschenpostApi.Models;
 using FlaschenpostApi.Repositories;
-
-// For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+using System;
 
 namespace FlaschenpostApi.Controllers
 {
@@ -27,28 +26,48 @@ namespace FlaschenpostApi.Controllers
             return products;
         }
 
-        [HttpGet("most-expensive-cheapest-per-litre")]
+        [HttpGet("expensive-cheapest-per-litre")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<IEnumerable<Product>>> GetMostExpensiveAndCheapestPerLitre([FromQuery] string url)
+        public async Task<ActionResult<IEnumerable<Product>>> GetMostExpensiveAndCheapestBierPerLitre([FromQuery] string url)
         {
+            if(!ValidateUrl(url))
+            {
+                return BadRequest("Invalid URL format");
+            }
+           
             var products = await _productRepository.GetExpensiveAndCheapestBier(url);
            
             return Ok(products);
         }
 
-        [HttpGet("cost-exactly-1799")]
+        [HttpGet("cost")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<IEnumerable<Product>>> GetBeersCostingExactly1799([FromQuery] string url)
+        public async Task<ActionResult<IEnumerable<Product>>> GetBierByCost([FromQuery] string url, string price)
         {
-            var beersCosting1799 = await _productRepository.GetBierByPrice(url);
+            if (!ValidateUrl(url))
+            {
+                return BadRequest("Invalid URL format");
+            }
 
-            return Ok(beersCosting1799);
+            if (!double.TryParse(price, out double parsedPrice))
+            {
+                return BadRequest("Invalid price value.");
+            }
+
+            var filteredProducts = await _productRepository.GetBierByCost(url, parsedPrice);
+
+            return Ok(filteredProducts);
         }
 
         [HttpGet("mostbottles")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<IEnumerable<Product>>> GetProductWithMostBottles([FromQuery] string url)
         {
+            if (!ValidateUrl(url))
+            {
+                return BadRequest("Invalid URL format");
+            }
+
             var productWithMostBottles = await _productRepository.GetProductWithMostBottles(url);
 
             return Ok(productWithMostBottles);
@@ -57,8 +76,13 @@ namespace FlaschenpostApi.Controllers
         [HttpGet("all")]
         public async Task<IActionResult> GetAllQueries([FromQuery] string url)
         {
-            var mostExpensiveAndCheapestPerLitre = await GetMostExpensiveAndCheapestPerLitre(url);
-            var beersCosting1799 = await GetBeersCostingExactly1799(url);
+            if (!ValidateUrl(url))
+            {
+                return BadRequest("Invalid URL format");
+            }
+
+            var mostExpensiveAndCheapestPerLitre = await GetMostExpensiveAndCheapestBierPerLitre(url);
+            var beersCosting1799 = await GetBierByCost(url,"17.99");
             var productWithMostBottles = await GetProductWithMostBottles(url);
 
             var result = new
@@ -69,6 +93,11 @@ namespace FlaschenpostApi.Controllers
             };
 
             return Ok(result);
+        }
+
+        private bool ValidateUrl(string url)
+        {
+            return Uri.TryCreate(url, UriKind.Absolute, out Uri uri);
         }
     }
 }

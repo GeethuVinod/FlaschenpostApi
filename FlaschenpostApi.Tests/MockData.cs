@@ -1,42 +1,11 @@
 ﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using Moq;
-using NUnit.Framework;
-using FlaschenpostApi.Controllers;
 using FlaschenpostApi.Models;
-using FlaschenpostApi.Repositories;
 
 namespace FlaschenpostApi.Tests
 {
-    public class Tests
+    public static class MockData
     {
-        private Mock<IProductRepository> _mockProductRepository;
-        private ProductsController _productsController;
-
-        [SetUp]
-        public void Setup()
-        {
-            _mockProductRepository = new Mock<IProductRepository>();
-            _productsController = new ProductsController(_mockProductRepository.Object);
-        }
-
-        [Test]
-        public async Task GetProducts_ReturnsOkResult_WhenProductsExist()
-        {
-            List<Product> expectedProducts = GetExpectedProducts();
-            _mockProductRepository.Setup(s => s.GetProductsAsync("")).ReturnsAsync(expectedProducts);
-
-            // Act
-            var result = await _productsController.GetAllProducts("");
-
-            // Assert
-            Assert.IsNotNull(result);
-
-
-            CollectionAssert.AreEqual(expectedProducts, result);
-        }
-
-        private static List<Product> GetExpectedProducts()
+        public static List<Product> GetExpectedProducts()
         {
             // Arrange
             return new List<Product>()
@@ -55,8 +24,5 @@ namespace FlaschenpostApi.Tests
                 } },
             };
         }
-
-
-
     }
 }

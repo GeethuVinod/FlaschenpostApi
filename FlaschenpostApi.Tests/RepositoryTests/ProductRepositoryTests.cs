@@ -54,8 +54,8 @@ namespace FlaschenpostApi.Tests.RepositoryTests
         public async Task GetBierByPrice1799_ReturnsFilteredProductsByPrice()
         {
             // Arrange
-
-            var filteredProducts = (await _productRepository.GetBierByPrice(FlaschenpostProductsUrl)).ToList();
+            double price = 17.99;
+            var filteredProducts = (await _productRepository.GetBierByCost(FlaschenpostProductsUrl, price)).ToList();
 
             // Assert
             Assert.NotNull(filteredProducts);

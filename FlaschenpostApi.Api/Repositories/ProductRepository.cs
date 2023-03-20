@@ -5,6 +5,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using FlaschenpostApi.Models;
+using System;
 
 namespace FlaschenpostApi.Repositories
 {
@@ -26,8 +27,10 @@ namespace FlaschenpostApi.Repositories
         }
 
 
-        public async Task<IList<Product>> GetBierByPrice(string url)
+        public async Task<IList<Product>> GetBierByCost(string url, double price)
         {
+      
+
             var products = await GetProductsAsync(url);
 
             var filteredProducts = products.Select(p => new Product
@@ -36,7 +39,7 @@ namespace FlaschenpostApi.Repositories
                 BrandName = p.BrandName,
                 Name = p.Name,
                 DescriptionText = p.DescriptionText,
-                Articles = p.Articles.Where(a => a.Price == 17.99)
+                Articles = p.Articles.Where(a => a.Price == price)
                                                                   .Select(a => new Article
                                                                   {
                                                                       Id = a.Id,
@@ -111,6 +114,8 @@ namespace FlaschenpostApi.Repositories
             // Sort the dictionary by descending order of bottle counts and return the product with the highest count
             return productBottleCounts.OrderByDescending(kvp => kvp.Value).First().Key;
         }
+
+     
 
     }
 }
