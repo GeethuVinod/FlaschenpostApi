@@ -16,12 +16,12 @@ git clone https://github.com/GeethuVinod/Flaschenpostapi.git
 
 # Sample routes
 
-https://localhost:5001/api/Products/expensive-cheapest-per-litre?url=https://flapotest.blob.core.windows.net/test/ProductData.json
+https://<localhost:port>/api/Products/expensive-cheapest-per-litre?url=https://flapotest.blob.core.windows.net/test/ProductData.json
 
-https://localhost:5001/api/Products/cost?url=https://flapotest.blob.core.windows.net/test/ProductData.json&price=17.99
+https://<localhost:port>/api/Products/cost?url=https://flapotest.blob.core.windows.net/test/ProductData.json&price=17.99
 
-https://localhost:5001/api/Products/expensive-cheapest-per-litre?url=https://flapotest.blob.core.windows.net/test/ProductData.json
+https://<localhost:port>/api/Products/expensive-cheapest-per-litre?url=https://flapotest.blob.core.windows.net/test/ProductData.json
 
-https://localhost:5001/api/Products/mostbottles?url=https://flapotest.blob.core.windows.net/test/ProductData.json
+https://<localhost:port>/api/Products/mostbottles?url=https://flapotest.blob.core.windows.net/test/ProductData.json
 
 
